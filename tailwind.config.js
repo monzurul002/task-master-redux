@@ -7,8 +7,9 @@ export default {
       colors: {
         primary: '#2453DF',
         secondary: '#0C1F58',
+        success: "#0BDA51"
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/forms'),],
 };

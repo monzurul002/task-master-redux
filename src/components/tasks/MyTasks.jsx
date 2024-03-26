@@ -2,37 +2,63 @@ import {
   CheckIcon,
   DocumentMagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateStatus } from '../../redux/features/tasks/tasksSlice';
+import ShowDetailsModal from './ShowDetailsModal';
+import { useState } from 'react';
 
 const MyTasks = () => {
-  const item = {
-    id: 1,
-    status: 'pending',
-    title: 'Remove Button',
-    description:
-      'We need a remove button in our task card. Meke the button red and use Heroicon for tashbin icon.',
-    date: '2023-08-28',
-    assignedTo: 'Mir Hussain',
-    priority: 'high',
-  };
+  // const item = {
+  //   id: 1,
+  //   status: 'pending',
+  //   title: 'Remove Button',
+  //   description:
+  //     'We need a remove button in our task card. Meke the button red and use Heroicon for tashbin icon.',
+  //   date: '2023-08-28',
+  //   assignedTo: 'Mir Hussain',
+  //   priority: 'high',
+  // };
 
+  const { task } = useSelector((state) => state.taskSlice)
+  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false)
+  function openModal() {
+    setIsOpen(true)
+  }
   return (
-    <div>
+    <div >
       <h1 className="text-xl my-3">My Tasks</h1>
+
       <div className=" h-[750px] overflow-auto space-y-3">
-        <div
-          key={item.id}
-          className="bg-secondary/10 rounded-md p-3 flex justify-between"
-        >
-          <h1>{item.title}</h1>
-          <div className="flex gap-3">
-            <button className="grid place-content-center" title="Details">
-              <DocumentMagnifyingGlassIcon className="w-5 h-5 text-primary" />
-            </button>
-            <button className="grid place-content-center" title="Done">
-              <CheckIcon className="w-5 h-5 text-primary" />
-            </button>
-          </div>
-        </div>
+
+        {
+          task?.map(item => {
+            return <div
+              key={item.id}
+              className="bg-secondary/10 rounded-md p-3 flex justify-between"
+            >
+              <div className="flex gap-3">
+                <h1>{item.gender}</h1>
+
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+                >
+                  Open dialog
+                </button>
+                <ShowDetailsModal isOpen={isOpen} setIsOpen={setIsOpen} />
+                <button className="grid place-content-center" title="Details">
+                  <DocumentMagnifyingGlassIcon className="w-5 h-5 text-primary" />
+                </button>
+
+                <button onClick={() => dispatch(updateStatus({ id: item.id, status: "done" }))} className="grid place-content-center" title="Done">
+                  <CheckIcon className="w-5 h-5 text-primary" />
+                </button>
+              </div>
+            </div>
+          })
+        }
       </div>
     </div>
   );
