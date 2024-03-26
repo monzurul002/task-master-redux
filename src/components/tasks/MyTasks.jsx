@@ -19,16 +19,15 @@ const MyTasks = () => {
   //   priority: 'high',
   // };
 
+  const [isOpen, setIsOpen] = useState(false)
   const { task } = useSelector((state) => state.taskSlice)
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false)
   function openModal() {
     setIsOpen(true)
   }
   return (
     <div >
       <h1 className="text-xl my-3">My Tasks</h1>
-
       <div className=" h-[750px] overflow-auto space-y-3">
 
         {
@@ -39,16 +38,9 @@ const MyTasks = () => {
             >
               <div className="flex gap-3">
                 <h1>{item.gender}</h1>
-
-                <button
-                  type="button"
-                  onClick={openModal}
-                  className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
-                >
-                  Open dialog
-                </button>
-                <ShowDetailsModal isOpen={isOpen} setIsOpen={setIsOpen} />
-                <button className="grid place-content-center" title="Details">
+                <ShowDetailsModal isOpen={isOpen} setIsOpen={setIsOpen} item={item} />
+                <button type="button"
+                  onClick={openModal} className="grid place-content-center" title="Details">
                   <DocumentMagnifyingGlassIcon className="w-5 h-5 text-primary" />
                 </button>
 
